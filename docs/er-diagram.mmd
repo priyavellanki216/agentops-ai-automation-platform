@@ -1,0 +1,27 @@
+erDiagram
+  USERS ||--o{ AGENT_RUNS : starts
+  USERS ||--o{ AUDIT_LOGS : generates
+  CUSTOMERS ||--o{ SUPPORT_TICKETS : owns
+  CUSTOMERS ||--o{ INVOICES : receives
+  CUSTOMERS ||--o{ TRANSACTIONS : makes
+  CAMPAIGNS ||--o{ PRODUCT_EVENTS : attributes
+  AGENT_RUNS ||--o{ TOOL_CALLS : contains
+  AGENT_RUNS ||--o{ EVALUATION_RESULTS : scores
+  EVALUATION_RUNS ||--o{ EVALUATION_RESULTS : includes
+  DOCUMENTS ||--o{ DOCUMENT_CHUNKS : contains
+  INCIDENTS ||--o{ SUPPORT_TICKETS : informs
+  USERS { int id PK string role }
+  CUSTOMERS { uuid id PK string segment }
+  SUPPORT_TICKETS { uuid id PK uuid customer_id FK string priority }
+  INVOICES { uuid id PK uuid customer_id FK decimal amount }
+  TRANSACTIONS { uuid id PK uuid customer_id FK decimal amount string status }
+  CAMPAIGNS { uuid id PK string region }
+  PRODUCT_EVENTS { uuid id PK uuid campaign_id FK string event_name }
+  INCIDENTS { uuid id PK string severity string service }
+  DOCUMENTS { uuid id PK string title string source }
+  DOCUMENT_CHUNKS { uuid id PK uuid document_id FK vector embedding }
+  AGENT_RUNS { uuid id PK int user_id FK string agent_version string trace_id }
+  TOOL_CALLS { uuid id PK uuid run_id FK string tool_name string status }
+  EVALUATION_RUNS { uuid id PK string agent_version string status }
+  EVALUATION_RESULTS { uuid id PK uuid run_id FK decimal groundedness }
+  AUDIT_LOGS { uuid id PK int user_id FK string action }

@@ -1,0 +1,7 @@
+evaluation:
+  minimum_task_success: 0.85
+  minimum_groundedness: 0.90
+  maximum_failure_rate: 0.05
+  maximum_latency_regression: 0.20
+  benchmark_cases_required: 30
+  measured_metrics_only: true

@@ -1,0 +1,279 @@
+{
+  "status": "fail",
+  "measured": false,
+  "case_count": 30,
+  "metrics": {},
+  "comparison": {
+    "status": "fail",
+    "regressions": [
+      {
+        "metric": "evaluation_artifacts",
+        "message": "Measured current and baseline artifacts are required for CI."
+      }
+    ]
+  },
+  "trace_id": "trace_990ada96d2",
+  "generated_at": "2026-09-02T09:37:28.999374+00:00",
+  "cases": [
+    {
+      "id": "case-01",
+      "query": "Compare support tickets by customer segment",
+      "expected_tools": [
+        "query_database"
+      ],
+      "expected_evidence": "support_tickets"
+    },
+    {
+      "id": "case-02",
+      "query": "Find unresolved high priority tickets",
+      "expected_tools": [
+        "query_database"
+      ],
+      "expected_evidence": "support_tickets"
+    },
+    {
+      "id": "case-03",
+      "query": "Summarize failed transactions last week",
+      "expected_tools": [
+        "get_financial_summary",
+        "calculate_metrics"
+      ],
+      "expected_evidence": "transactions"
+    },
+    {
+      "id": "case-04",
+      "query": "Compare campaigns across regions",
+      "expected_tools": [
+        "query_database",
+        "calculate_metrics"
+      ],
+      "expected_evidence": "campaigns"
+    },
+    {
+      "id": "case-05",
+      "query": "Identify product areas with most incidents",
+      "expected_tools": [
+        "get_product_metrics",
+        "query_database"
+      ],
+      "expected_evidence": "incidents"
+    },
+    {
+      "id": "case-06",
+      "query": "Find customer invoice exposure",
+      "expected_tools": [
+        "get_customer",
+        "get_financial_summary"
+      ],
+      "expected_evidence": "invoices"
+    },
+    {
+      "id": "case-07",
+      "query": "Compare support tickets by customer segment",
+      "expected_tools": [
+        "query_database"
+      ],
+      "expected_evidence": "support_tickets"
+    },
+    {
+      "id": "case-08",
+      "query": "Find unresolved high priority tickets",
+      "expected_tools": [
+        "query_database"
+      ],
+      "expected_evidence": "support_tickets"
+    },
+    {
+      "id": "case-09",
+      "query": "Summarize failed transactions last week",
+      "expected_tools": [
+        "get_financial_summary",
+        "calculate_metrics"
+      ],
+      "expected_evidence": "transactions"
+    },
+    {
+      "id": "case-10",
+      "query": "Compare campaigns across regions",
+      "expected_tools": [
+        "query_database",
+        "calculate_metrics"
+      ],
+      "expected_evidence": "campaigns"
+    },
+    {
+      "id": "case-11",
+      "query": "Identify product areas with most incidents",
+      "expected_tools": [
+        "get_product_metrics",
+        "query_database"
+      ],
+      "expected_evidence": "incidents"
+    },
+    {
+      "id": "case-12",
+      "query": "Find customer invoice exposure",
+      "expected_tools": [
+        "get_customer",
+        "get_financial_summary"
+      ],
+      "expected_evidence": "invoices"
+    },
+    {
+      "id": "case-13",
+      "query": "Compare support tickets by customer segment",
+      "expected_tools": [
+        "query_database"
+      ],
+      "expected_evidence": "support_tickets"
+    },
+    {
+      "id": "case-14",
+      "query": "Find unresolved high priority tickets",
+      "expected_tools": [
+        "query_database"
+      ],
+      "expected_evidence": "support_tickets"
+    },
+    {
+      "id": "case-15",
+      "query": "Summarize failed transactions last week",
+      "expected_tools": [
+        "get_financial_summary",
+        "calculate_metrics"
+      ],
+      "expected_evidence": "transactions"
+    },
+    {
+      "id": "case-16",
+      "query": "Compare campaigns across regions",
+      "expected_tools": [
+        "query_database",
+        "calculate_metrics"
+      ],
+      "expected_evidence": "campaigns"
+    },
+    {
+      "id": "case-17",
+      "query": "Identify product areas with most incidents",
+      "expected_tools": [
+        "get_product_metrics",
+        "query_database"
+      ],
+      "expected_evidence": "incidents"
+    },
+    {
+      "id": "case-18",
+      "query": "Find customer invoice exposure",
+      "expected_tools": [
+        "get_customer",
+        "get_financial_summary"
+      ],
+      "expected_evidence": "invoices"
+    },
+    {
+      "id": "case-19",
+      "query": "Compare support tickets by customer segment",
+      "expected_tools": [
+        "query_database"
+      ],
+      "expected_evidence": "support_tickets"
+    },
+    {
+      "id": "case-20",
+      "query": "Find unresolved high priority tickets",
+      "expected_tools": [
+        "query_database"
+      ],
+      "expected_evidence": "support_tickets"
+    },
+    {
+      "id": "case-21",
+      "query": "Summarize failed transactions last week",
+      "expected_tools": [
+        "get_financial_summary",
+        "calculate_metrics"
+      ],
+      "expected_evidence": "transactions"
+    },
+    {
+      "id": "case-22",
+      "query": "Compare campaigns across regions",
+      "expected_tools": [
+        "query_database",
+        "calculate_metrics"
+      ],
+      "expected_evidence": "campaigns"
+    },
+    {
+      "id": "case-23",
+      "query": "Identify product areas with most incidents",
+      "expected_tools": [
+        "get_product_metrics",
+        "query_database"
+      ],
+      "expected_evidence": "incidents"
+    },
+    {
+      "id": "case-24",
+      "query": "Find customer invoice exposure",
+      "expected_tools": [
+        "get_customer",
+        "get_financial_summary"
+      ],
+      "expected_evidence": "invoices"
+    },
+    {
+      "id": "case-25",
+      "query": "Compare support tickets by customer segment",
+      "expected_tools": [
+        "query_database"
+      ],
+      "expected_evidence": "support_tickets"
+    },
+    {
+      "id": "case-26",
+      "query": "Find unresolved high priority tickets",
+      "expected_tools": [
+        "query_database"
+      ],
+      "expected_evidence": "support_tickets"
+    },
+    {
+      "id": "case-27",
+      "query": "Summarize failed transactions last week",
+      "expected_tools": [
+        "get_financial_summary",
+        "calculate_metrics"
+      ],
+      "expected_evidence": "transactions"
+    },
+    {
+      "id": "case-28",
+      "query": "Compare campaigns across regions",
+      "expected_tools": [
+        "query_database",
+        "calculate_metrics"
+      ],
+      "expected_evidence": "campaigns"
+    },
+    {
+      "id": "case-29",
+      "query": "Identify product areas with most incidents",
+      "expected_tools": [
+        "get_product_metrics",
+        "query_database"
+      ],
+      "expected_evidence": "incidents"
+    },
+    {
+      "id": "case-30",
+      "query": "Find customer invoice exposure",
+      "expected_tools": [
+        "get_customer",
+        "get_financial_summary"
+      ],
+      "expected_evidence": "invoices"
+    }
+  ]
+}

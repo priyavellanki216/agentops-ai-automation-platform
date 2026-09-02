@@ -1,0 +1,27 @@
+name: AgentOps quality
+
+on:
+  pull_request:
+  push:
+    branches: [main]
+
+jobs:
+  quality:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - name: Install Python dependencies
+        run: pip install -r backend/requirements.txt
+      - name: Ruff
+        run: ruff check backend mcp_server evaluation
+      - name: MyPy
+        run: mypy backend mcp_server
+      - name: PyTest
+        run: pytest backend/tests mcp_server/tests
+      - name: Require measured evaluation artifacts
+        run: test -f evaluation/results/current.json && test -f evaluation/results/baseline.json
+      - name: Evaluation gate
+        run: python -m evaluation.run --config evaluation/config.yaml --input evaluation/results/current.json --baseline evaluation/results/baseline.json --fail-on-regression

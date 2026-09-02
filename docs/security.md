@@ -1,0 +1,5 @@
+# Security configuration
+
+The Python reference API reads `AGENTOPS_API_KEYS` as a comma-separated allow-list, `AGENTOPS_KEY_ROLES` as comma-separated `key=role` mappings, `AGENTOPS_DEFAULT_ROLE` as the fallback role, and `AGENTOPS_RATE_LIMIT` as the request budget per key per 60-second window. Valid roles are `admin`, `analyst`, `support`, and `viewer`; tool authorization must remain allow-listed and deny by default.
+
+The current limiter is intentionally a bounded in-memory adapter for the single-process reference service. It is not a distributed production limiter: multiple instances would each maintain an independent counter. Before multi-instance production, replace `_REQUESTS` with a shared store such as Redis or a database-backed fixed-window/token-bucket implementation, hash API keys at rest, rotate keys, and put TLS termination plus upstream request limits in front of the service. The application should continue returning structured `401`, `403`, and `429` errors with correlation IDs.

@@ -1,0 +1,60 @@
+# Project TODO
+
+- [x] Establish AgentOps visual system with auth-aware execution shell and preview-safe signed-out state
+- [x] Add relational schema for customers, support tickets, transactions, invoices, campaigns, product events, incidents, documents, runs, tools, evaluations, and audit logs
+- [ ] Generate/apply the PostgreSQL migration and verify live schema/indexes
+- [x] Add typed backend query helpers and secure reference API contracts
+- [x] Implement approved-view SQL validation and role-restricted tool registry
+- [x] Implement dynamic business-request routing with structured tool plans
+- [x] Implement typed reference handlers for query_database, search_knowledge_base, get_customer, get_support_ticket, get_product_metrics, get_financial_summary, calculate_metrics, get_incident_details, create_ticket, and generate_report tools
+- [x] Implement timeout, retry, validation, structured failure, correlation ID, and audit-log handling in the reference tool boundary
+- [x] Implement authenticated MCP-compatible connector registry and in-agent MCP client flow
+- [x] Implement evidence-gated retrieval with chunk metadata and relevance scores
+- [x] Implement trace capture for requests, model activity, tool calls, retrieval, latency, errors, and evaluation outcomes
+- [x] Implement versioned evaluation cases, measured metrics, reports, configurable regression thresholds, and CI checks
+- [x] Build Agent Console page
+- [x] Build Trace Viewer page
+- [x] Build Evaluation Dashboard page
+- [x] Build Tool Registry page
+- [x] Build System Health page
+- [ ] Add full production authentication, role-aware permissions, distributed rate limiting, and environment-managed configuration (reference API-key boundary is implemented)
+- [x] Add unit tests for routing, tools, SQL safety, retrieval, evaluation, auth, permissions, failures, MCP transport, and API contracts; full database integration remains pending
+- [x] Add Docker/Docker Compose, GitHub Actions, OpenAPI documentation, ER diagram, and runnable README
+- [x] Run type checks, tests, build, and visual verification
+- [ ] Save final checkpoint and deliver the project version
+
+- [x] Corrective: gate agent execution behind authentication while keeping a reviewable signed-out state
+- [x] Corrective: add separate routes/pages for Agent Console, Trace Viewer, Evaluation Dashboard, Tool Registry, and System Health
+- [x] Corrective: implement evaluation metrics, version comparison, threshold enforcement, and regression status in the standalone evaluation runner
+- [x] Corrective: strengthen API-key auth, rate limiting, and environment-driven security settings in the Python reference API
+- [x] Corrective: add ER diagram documentation and link it from README
+- [x] Corrective: validate Python syntax, FastAPI/MCP security tests, and frontend build paths; Docker image execution remains pending
+- [x] Corrective: add persisted tool registry schema and foreign-key integrity for run and audit ownership
+- [x] Corrective: add environment-backed per-key role mapping and document shared rate-limiter requirements for multi-instance production
+- [x] Corrective: add an actual MCP JSON-RPC transport boundary with typed requests, authenticated discovery, structured failures, and client calls
+- [x] Corrective: connect retrieval to metadata-filtered pgvector query execution and evidence gating end to end
+- [x] Corrective: integrate trace envelopes into API runs, tool planning, and evaluation event helpers
+- [x] Corrective: emit structured audit events and propagate correlation IDs through API run planning and failures
+- [x] Corrective: wire CI regression checks to measured current and baseline artifacts and test failing behavior
+- [x] Corrective: emit trace events from the evaluation runner and include trace IDs in reports
+- [x] Corrective: connect typed tool handlers to approved-view queries, MCP calls, retrieval, and injectable write persistence
+- [x] Corrective: wire CI to explicit measured current/baseline artifact inputs and fail closed when missing
+- [x] Corrective: add a root deployment Dockerfile and frontend service to Docker Compose
+- [x] Corrective: add document chunking, embedding adapter, richer metadata filters, and tested pgvector query flow
+- [x] Corrective: expose get_incident_details through MCP and implement ticket/report persistence adapters
+- [x] Corrective: add end-to-end retrieval execution tests with stored chunk fixtures, metadata filtering, relevance scores, and evidence gating
+- [x] Corrective: make ticket/report persistence UUID-safe and complete against the schema contract
+- [x] Corrective: validate get_incident_details through MCP JSON-RPC discovery and call behavior
+
+- [ ] Audit the existing repository and document preserved versus added implementation files
+- [ ] Add actual implementation documentation pages: architecture, agent flow, MCP, evaluation, database, and development
+- [ ] Add .env.example and LICENSE without secrets
+- [ ] Split CI coverage into runnable CI and evaluation workflows where appropriate
+- [ ] Validate backend/frontend/MCP/evaluation startup paths and repository cleanliness
+- [ ] Inspect the existing GitHub repository and preserve its working contents
+- [ ] Commit actual implementation changes to the existing GitHub repository
+- [ ] Push to the existing GitHub repository only after explicit confirmation
+- [ ] Verify the public repository contains the delivered source files
+
+- [ ] User-requested: update the existing GitHub repository priyavellanki216/agentops-ai-automation-platform with the validated local implementation
+- [ ] User-requested: verify the updated public GitHub repository after delivery

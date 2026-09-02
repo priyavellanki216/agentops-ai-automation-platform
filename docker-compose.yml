@@ -1,0 +1,42 @@
+services:
+  frontend:
+    image: node:22-slim
+    working_dir: /app
+    volumes:
+      - .:/app
+    command: ["bash", "-lc", "corepack enable && corepack pnpm install && corepack pnpm dev --host 0.0.0.0"]
+    ports:
+      - "3000:3000"
+  postgres:
+    image: pgvector/pgvector:pg16
+    environment:
+      POSTGRES_DB: agentops
+      POSTGRES_USER: agentops
+      POSTGRES_PASSWORD: change-me-in-env
+    ports:
+      - "5432:5432"
+    volumes:
+      - agentops_pgdata:/var/lib/postgresql/data
+  backend:
+    build:
+      context: .
+      dockerfile: backend/Dockerfile
+    environment:
+      DATABASE_URL: postgresql+psycopg://agentops:change-me-in-env@postgres:5432/agentops
+      MCP_API_KEY: ${MCP_API_KEY:?set MCP_API_KEY}
+      OPENAI_API_KEY: ${OPENAI_API_KEY:?set OPENAI_API_KEY}
+    depends_on:
+      - postgres
+    ports:
+      - "8000:8000"
+  mcp-server:
+    build:
+      context: .
+      dockerfile: backend/Dockerfile
+    command: ["python", "-m", "mcp_server.server"]
+    environment:
+      MCP_API_KEY: ${MCP_API_KEY:?set MCP_API_KEY}
+    ports:
+      - "8100:8100"
+volumes:
+  agentops_pgdata:
