@@ -48,7 +48,7 @@
 
 - [x] Audit the existing repository and document preserved versus added implementation files
 - [x] Add actual implementation documentation pages: architecture, agent flow, MCP, evaluation, database, and development
-- [ ] Add .env.example and LICENSE without secrets (LICENSE added; environment template blocked by managed secret-file policy)
+- [x] Add LICENSE and repository-safe environment setup documentation without secrets; managed policy blocks a literal `.env.example`
 - [x] Split CI coverage into runnable CI and evaluation workflows where appropriate
 - [x] Validate backend/frontend/MCP/evaluation startup paths and repository cleanliness; Docker/PostgreSQL initialization remain host-dependent
 - [x] Inspect the existing GitHub repository and preserve its working contents
@@ -60,10 +60,15 @@
 - [x] User-requested: verify the updated public GitHub repository after delivery
 - [x] Corrective: document the existing GitHub repository audit, preserved files, and added implementation inventory
 
-- [ ] Fix GitHub Actions frontend-and-python failure: install and expose pnpm before invoking pnpm commands
-- [ ] Re-validate the corrected CI workflow and push the repair to GitHub
+- [x] Fix GitHub Actions frontend-and-python failure: install and expose pnpm before invoking pnpm commands
+- [x] Re-validate the corrected CI workflow and push the repair to GitHub
 
-- [ ] Diagnose failed `ci: split application and evaluation workflows` / AgentOps quality workflow run
-- [ ] Diagnose failed `feat: add AgentOps orchestration, MCP, RAG, evaluation, and dashboard` / CI workflow run
-- [ ] Add all missing implementation and workflow files required by the repository brief
-- [ ] Push the consolidated CI and implementation repair and verify both workflow families
+- [x] Diagnose failed `ci: split application and evaluation workflows` / AgentOps quality workflow run
+- [x] Diagnose failed `feat: add AgentOps orchestration, MCP, RAG, evaluation, and dashboard` / CI workflow run
+- [ ] Add the remaining repository-brief artifacts, tracked through file-level items below
+- [x] Push the consolidated CI and implementation repair and verify both workflow families
+- [x] Add `docs/environment.md` as the repository-safe `.env.example` equivalent
+- [x] Add `ruff.toml` with project lint configuration
+- [x] Add explicit Python package markers required by MyPy
+- [x] Add `.github/workflows/ci.yml` and `.github/workflows/evaluation.yml`
+- [x] Add `.github/workflows/quality.yml` with artifact-independent quality checks
