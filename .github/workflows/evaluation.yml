@@ -1,0 +1,27 @@
+name: Evaluation
+
+on:
+  workflow_dispatch:
+  pull_request:
+    paths:
+      - 'evaluation/**'
+      - 'backend/**'
+
+jobs:
+  regression:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - run: python -m pip install -r backend/requirements.txt pytest
+      - run: python -m pytest evaluation/test_metrics.py -q
+      - name: Require measured artifacts
+        env:
+          EVAL_CURRENT: ${{ vars.EVAL_CURRENT_ARTIFACT }}
+          EVAL_BASELINE: ${{ vars.EVAL_BASELINE_ARTIFACT }}
+        run: |
+          test -n "$EVAL_CURRENT" || (echo 'EVAL_CURRENT_ARTIFACT repository variable is required' && exit 1)
+          test -n "$EVAL_BASELINE" || (echo 'EVAL_BASELINE_ARTIFACT repository variable is required' && exit 1)
+          python evaluation/run.py --current "$EVAL_CURRENT" --baseline "$EVAL_BASELINE" --config evaluation/config.yaml
