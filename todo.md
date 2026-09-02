@@ -21,7 +21,7 @@
 - [x] Add unit tests for routing, tools, SQL safety, retrieval, evaluation, auth, permissions, failures, MCP transport, and API contracts; full database integration remains pending
 - [x] Add Docker/Docker Compose, GitHub Actions, OpenAPI documentation, ER diagram, and runnable README
 - [x] Run type checks, tests, build, and visual verification
-- [ ] Save final checkpoint and deliver the project version
+- [x] Save final checkpoint and deliver the project version
 
 - [x] Corrective: gate agent execution behind authentication while keeping a reviewable signed-out state
 - [x] Corrective: add separate routes/pages for Agent Console, Trace Viewer, Evaluation Dashboard, Tool Registry, and System Health
@@ -49,8 +49,8 @@
 - [x] Audit the existing repository and document preserved versus added implementation files
 - [x] Add actual implementation documentation pages: architecture, agent flow, MCP, evaluation, database, and development
 - [ ] Add .env.example and LICENSE without secrets (LICENSE added; environment template blocked by managed secret-file policy)
-- [ ] Split CI coverage into runnable CI and evaluation workflows where appropriate
-- [ ] Validate backend/frontend/MCP/evaluation startup paths and repository cleanliness
+- [x] Split CI coverage into runnable CI and evaluation workflows where appropriate
+- [x] Validate backend/frontend/MCP/evaluation startup paths and repository cleanliness; Docker/PostgreSQL initialization remain host-dependent
 - [x] Inspect the existing GitHub repository and preserve its working contents
 - [x] Commit actual implementation changes to the existing GitHub repository
 - [x] Push to the existing GitHub repository only after explicit user request
@@ -58,4 +58,7 @@
 
 - [x] User-requested: update the existing GitHub repository priyavellanki216/agentops-ai-automation-platform with the validated local implementation
 - [x] User-requested: verify the updated public GitHub repository after delivery
-- [ ] Corrective: document the existing GitHub repository audit, preserved files, and added implementation inventory
+- [x] Corrective: document the existing GitHub repository audit, preserved files, and added implementation inventory
+
+- [ ] Fix GitHub Actions frontend-and-python failure: install and expose pnpm before invoking pnpm commands
+- [ ] Re-validate the corrected CI workflow and push the repair to GitHub
