@@ -65,7 +65,7 @@
 
 - [x] Diagnose failed `ci: split application and evaluation workflows` / AgentOps quality workflow run
 - [x] Diagnose failed `feat: add AgentOps orchestration, MCP, RAG, evaluation, and dashboard` / CI workflow run
-- [ ] Add the remaining repository-brief artifacts, tracked through file-level items below
+- [x] Add repository-brief artifacts tracked through the completed file-level items below
 - [x] Push the consolidated CI and implementation repair and verify both workflow families
 - [x] Add `docs/environment.md` as the repository-safe `.env.example` equivalent
 - [x] Add `ruff.toml` with project lint configuration
