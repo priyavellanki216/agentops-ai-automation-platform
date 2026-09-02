@@ -20,7 +20,7 @@ class AuditEvent:
 
     def persist(self) -> dict[str, object]:
         """Emit a DB-ready event and structured log; DB repositories can insert this row."""
-        payload = {
+        payload: dict[str, object] = {
             "id": str(uuid4()),
             "action": self.action,
             "resource": self.resource,

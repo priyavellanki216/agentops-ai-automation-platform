@@ -10,6 +10,7 @@ import os
 import time
 from datetime import UTC, datetime
 from enum import Enum
+from typing import cast
 from uuid import uuid4
 
 from fastapi import Depends, FastAPI, Header, HTTPException
@@ -104,7 +105,10 @@ def health() -> dict[str, object]:
 def list_tools(role: Role = Depends(require_api_key)) -> dict[str, object]:
     return {
         "role": role,
-        "tools": [{"name": name, **meta, "allowed": role.value in meta["roles"]} for name, meta in TOOLS.items()],
+        "tools": [
+            {"name": name, **meta, "allowed": role.value in set(cast(list[str], meta["roles"]))}
+            for name, meta in TOOLS.items()
+        ],
     }
 
 
@@ -156,7 +160,7 @@ def run_agent(
         answer="The request has been accepted for evidence-gated orchestration.",
         tools_used=allowed_tools,
         sources=[],
-        latency_ms=int(trace_payload["latency_ms"]),
+        latency_ms=int(cast(float, trace_payload["latency_ms"])),
         created_at=now,
     )
 
