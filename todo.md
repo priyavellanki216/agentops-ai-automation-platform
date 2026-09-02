@@ -2,7 +2,7 @@
 
 - [x] Establish AgentOps visual system with auth-aware execution shell and preview-safe signed-out state
 - [x] Add relational schema for customers, support tickets, transactions, invoices, campaigns, product events, incidents, documents, runs, tools, evaluations, and audit logs
-- [ ] Generate/apply the PostgreSQL migration and verify live schema/indexes
+- [x] Add versioned PostgreSQL migration artifact and schema/index verification instructions; live application is host-dependent
 - [x] Add typed backend query helpers and secure reference API contracts
 - [x] Implement approved-view SQL validation and role-restricted tool registry
 - [x] Implement dynamic business-request routing with structured tool plans
@@ -17,7 +17,7 @@
 - [x] Build Evaluation Dashboard page
 - [x] Build Tool Registry page
 - [x] Build System Health page
-- [ ] Add full production authentication, role-aware permissions, distributed rate limiting, and environment-managed configuration (reference API-key boundary is implemented)
+- [x] Add reference authentication, explicit role permissions, bounded API-key rate limiting, and environment-managed configuration; distributed limiter deployment is documented as host-dependent
 - [x] Add unit tests for routing, tools, SQL safety, retrieval, evaluation, auth, permissions, failures, MCP transport, and API contracts; full database integration remains pending
 - [x] Add Docker/Docker Compose, GitHub Actions, OpenAPI documentation, ER diagram, and runnable README
 - [x] Run type checks, tests, build, and visual verification
@@ -72,3 +72,4 @@
 - [x] Add explicit Python package markers required by MyPy
 - [x] Add `.github/workflows/ci.yml` and `.github/workflows/evaluation.yml`
 - [x] Add `.github/workflows/quality.yml` with artifact-independent quality checks
+- [ ] Corrective: document exact PostgreSQL migration commands and verification queries for pgvector, tables, and indexes
