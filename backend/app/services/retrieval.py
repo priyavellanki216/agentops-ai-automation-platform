@@ -1,7 +1,7 @@
 from __future__ import annotations
 
-from dataclasses import dataclass
 import json
+from dataclasses import dataclass
 from typing import Any
 
 
@@ -20,7 +20,9 @@ class EvidenceInsufficient(Exception):
     pass
 
 
-def build_pgvector_query(embedding: list[float], source: str | None = None, metadata: dict[str, str] | None = None, limit: int = 5) -> tuple[str, dict[str, Any]]:
+def build_pgvector_query(
+    embedding: list[float], source: str | None = None, metadata: dict[str, str] | None = None, limit: int = 5
+) -> tuple[str, dict[str, Any]]:
     """Build a parameterized cosine-distance query; callers bind values via a DB driver."""
     if not embedding or len(embedding) != 1536:
         raise ValueError("EMBEDDING_INVALID: expected a 1536-dimensional embedding")
@@ -41,7 +43,9 @@ def build_pgvector_query(embedding: list[float], source: str | None = None, meta
     return sql, params
 
 
-def evidence_gate(chunks: list[RetrievedChunk], minimum_score: float = .72, minimum_chunks: int = 1) -> list[RetrievedChunk]:
+def evidence_gate(
+    chunks: list[RetrievedChunk], minimum_score: float = 0.72, minimum_chunks: int = 1
+) -> list[RetrievedChunk]:
     accepted = [chunk for chunk in chunks if chunk.relevance >= minimum_score]
     if len(accepted) < minimum_chunks:
         raise EvidenceInsufficient("EVIDENCE_INSUFFICIENT: no grounded answer should be generated")

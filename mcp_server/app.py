@@ -33,7 +33,11 @@ def rpc(request: JSONRPCRequest, authorization: str | None = Header(default=None
         name = request.params.get("name")
         arguments = request.params.get("arguments", {})
         if not isinstance(name, str) or not isinstance(arguments, dict):
-            return {"jsonrpc": "2.0", "id": request.id, "error": {"code": -32602, "message": "name and object arguments are required"}}
+            return {
+                "jsonrpc": "2.0",
+                "id": request.id,
+                "error": {"code": -32602, "message": "name and object arguments are required"},
+            }
         result = call_tool(name, arguments, token)
         return {"jsonrpc": "2.0", "id": request.id, "result": result}
     return {"jsonrpc": "2.0", "id": request.id, "error": {"code": -32601, "message": "Method not found"}}
@@ -41,4 +45,5 @@ def rpc(request: JSONRPCRequest, authorization: str | None = Header(default=None
 
 if __name__ == "__main__":
     import uvicorn
+
     uvicorn.run(app, host="0.0.0.0", port=int(os.getenv("MCP_PORT", "8100")))

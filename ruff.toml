@@ -1,0 +1,9 @@
+target-version = "py312"
+line-length = 120
+
+[lint]
+extend-select = ["I", "B"]
+extend-ignore = ["B008"]
+
+[lint.isort]
+known-first-party = ["backend", "mcp_server", "evaluation"]

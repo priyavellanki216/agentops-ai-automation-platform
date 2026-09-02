@@ -62,3 +62,8 @@
 
 - [ ] Fix GitHub Actions frontend-and-python failure: install and expose pnpm before invoking pnpm commands
 - [ ] Re-validate the corrected CI workflow and push the repair to GitHub
+
+- [ ] Diagnose failed `ci: split application and evaluation workflows` / AgentOps quality workflow run
+- [ ] Diagnose failed `feat: add AgentOps orchestration, MCP, RAG, evaluation, and dashboard` / CI workflow run
+- [ ] Add all missing implementation and workflow files required by the repository brief
+- [ ] Push the consolidated CI and implementation repair and verify both workflow families

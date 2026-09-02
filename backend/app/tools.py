@@ -2,13 +2,14 @@ from __future__ import annotations
 
 import re
 import time
+from collections.abc import Callable
 from dataclasses import dataclass
-from typing import Any, Callable, TypeVar
+from typing import Any, TypeVar
 
 T = TypeVar("T")
 
 APPROVED_VIEWS = {"customer_support_summary", "transaction_failure_summary", "campaign_performance", "incident_rollup"}
-DESTRUCTIVE_SQL = re.compile(r"\b(insert|update|delete|drop|alter|truncate|grant|revoke)\b", re.I)
+DESTRUCTIVE_SQL = re.compile(r"\b(insert|update|delete|drop|alter|truncate|grant|revoke)\b", re.IGNORECASE)
 
 
 @dataclass(frozen=True)
@@ -22,7 +23,11 @@ TOOL_CONTRACTS = {
     name: ToolContract(name, frozenset(roles), description)
     for name, roles, description in [
         ("query_database", {"admin", "analyst"}, "Query an approved read-only view."),
-        ("search_knowledge_base", {"admin", "analyst", "support", "viewer"}, "Retrieve evidence-gated document chunks."),
+        (
+            "search_knowledge_base",
+            {"admin", "analyst", "support", "viewer"},
+            "Retrieve evidence-gated document chunks.",
+        ),
         ("get_customer", {"admin", "analyst", "support", "viewer"}, "Retrieve a customer record."),
         ("get_support_ticket", {"admin", "analyst", "support", "viewer"}, "Retrieve a support ticket."),
         ("get_product_metrics", {"admin", "analyst", "viewer"}, "Retrieve product metrics."),
@@ -39,7 +44,7 @@ def validate_approved_sql(sql: str) -> str:
     normalized = " ".join(sql.strip().split())
     if not normalized.lower().startswith("select ") or DESTRUCTIVE_SQL.search(normalized):
         raise ValueError("SQL_BLOCKED: only read-only SELECT statements are allowed")
-    if not any(re.search(rf"\b{re.escape(view)}\b", normalized, re.I) for view in APPROVED_VIEWS):
+    if not any(re.search(rf"\b{re.escape(view)}\b", normalized, re.IGNORECASE) for view in APPROVED_VIEWS):
         raise ValueError("SQL_BLOCKED: query must target an approved view")
     return normalized
 
@@ -53,7 +58,7 @@ def authorize_tool(name: str, role: str) -> ToolContract:
     return contract
 
 
-def with_retry(operation: Callable[[], T], *, attempts: int = 3, timeout_seconds: float = 10.0) -> T:
+def with_retry(operation: Callable[[], T], *, attempts: int = 3, timeout_seconds: float = 10.0) -> T:  # noqa: UP047
     """Run a bounded operation with exponential backoff; callers map errors to trace IDs."""
     started = time.monotonic()
     last_error: Exception | None = None
@@ -64,7 +69,7 @@ def with_retry(operation: Callable[[], T], *, attempts: int = 3, timeout_seconds
             return operation()
         except Exception as exc:  # noqa: BLE001 - boundary converts unknown tool failures
             last_error = exc
-            time.sleep(min(0.1 * (2 ** attempt), 0.8))
+            time.sleep(min(0.1 * (2**attempt), 0.8))
     raise TimeoutError("TOOL_TIMEOUT: operation exceeded bounded retry/timeout policy") from last_error
 
 

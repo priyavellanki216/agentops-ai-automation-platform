@@ -15,7 +15,17 @@ class DocumentChunk:
     metadata: dict[str, Any]
 
 
-def chunk_document(document_id: str, title: str, source: str, text: str, *, section: str = "body", chunk_size: int = 900, overlap: int = 120, metadata: dict[str, Any] | None = None) -> list[DocumentChunk]:
+def chunk_document(
+    document_id: str,
+    title: str,
+    source: str,
+    text: str,
+    *,
+    section: str = "body",
+    chunk_size: int = 900,
+    overlap: int = 120,
+    metadata: dict[str, Any] | None = None,
+) -> list[DocumentChunk]:
     if chunk_size <= overlap or chunk_size < 1:
         raise ValueError("CHUNK_CONFIG_INVALID: chunk_size must be greater than overlap")
     normalized = " ".join(text.split())
@@ -33,5 +43,8 @@ def embed_text(text: str) -> list[float]:
     if not api_key:
         raise RuntimeError("EMBEDDING_PROVIDER_UNAVAILABLE: configure OPENAI_API_KEY")
     from openai import OpenAI
-    response = OpenAI(api_key=api_key).embeddings.create(model=os.getenv("OPENAI_EMBEDDING_MODEL", "text-embedding-3-small"), input=text)
+
+    response = OpenAI(api_key=api_key).embeddings.create(
+        model=os.getenv("OPENAI_EMBEDDING_MODEL", "text-embedding-3-small"), input=text
+    )
     return response.data[0].embedding

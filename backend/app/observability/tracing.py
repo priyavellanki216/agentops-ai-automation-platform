@@ -25,6 +25,10 @@ class TraceEnvelope:
         logger.info(json.dumps(record, default=str))
 
     def finish(self, evaluation_score: float | None = None) -> dict[str, object]:
-        payload = {**asdict(self), "latency_ms": round((time.perf_counter() - self.started_at) * 1000), "evaluation_score": evaluation_score}
+        payload = {
+            **asdict(self),
+            "latency_ms": round((time.perf_counter() - self.started_at) * 1000),
+            "evaluation_score": evaluation_score,
+        }
         self.event("run_finished", latency_ms=payload["latency_ms"], evaluation_score=evaluation_score)
         return payload

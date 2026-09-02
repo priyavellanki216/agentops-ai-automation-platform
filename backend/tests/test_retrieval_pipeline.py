@@ -6,7 +6,9 @@ from backend.app.tool_handlers import search_knowledge_base
 
 
 def test_chunk_document_preserves_metadata() -> None:
-    chunks = chunk_document("doc-1", "Policy", "internal", "one two three four five", chunk_size=12, overlap=3, metadata={"team": "support"})
+    chunks = chunk_document(
+        "doc-1", "Policy", "internal", "one two three four five", chunk_size=12, overlap=3, metadata={"team": "support"}
+    )
     assert len(chunks) >= 2
     assert all(chunk.metadata["team"] == "support" for chunk in chunks)
 
@@ -24,10 +26,23 @@ def test_search_knowledge_base_executes_and_gates_stored_chunk_results() -> None
         assert "d.metadata @> CAST(:metadata AS jsonb)" in sql
         assert params["limit"] == 5
         assert params["metadata"] == '{"team": "support"}'
-        return [{"document_id": "d1", "title": "Runbook", "section": "Auth", "source": "internal", "relevance": .93, "content": "Rotate the session key.", "metadata": {"team": "support"}}]
-    result = search_knowledge_base("How do I rotate a session key?", "viewer", [0.0] * 1536, {"team": "support"}, executor)
+        return [
+            {
+                "document_id": "d1",
+                "title": "Runbook",
+                "section": "Auth",
+                "source": "internal",
+                "relevance": 0.93,
+                "content": "Rotate the session key.",
+                "metadata": {"team": "support"},
+            }
+        ]
+
+    result = search_knowledge_base(
+        "How do I rotate a session key?", "viewer", [0.0] * 1536, {"team": "support"}, executor
+    )
     assert result.ok is True
-    assert result.evidence[0]["relevance"] == .93
+    assert result.evidence[0]["relevance"] == 0.93
 
 
 def test_embedding_requires_provider_configuration(monkeypatch: pytest.MonkeyPatch) -> None:

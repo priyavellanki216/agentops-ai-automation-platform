@@ -2,7 +2,11 @@ import pytest
 
 from backend.app.agents.router import route_request
 from backend.app.db import DatabaseUnavailable, database_url, query_approved_view
-from backend.app.services.retrieval import EvidenceInsufficient, RetrievedChunk, evidence_gate
+from backend.app.services.retrieval import (
+    EvidenceInsufficient,
+    RetrievedChunk,
+    evidence_gate,
+)
 from backend.app.tools import authorize_tool, validate_approved_sql, with_retry
 
 
@@ -35,14 +39,16 @@ def test_role_restriction_is_deny_by_default() -> None:
 
 def test_retry_recovers_from_transient_tool_failure() -> None:
     attempts = {"count": 0}
+
     def operation() -> str:
         attempts["count"] += 1
         if attempts["count"] < 2:
             raise RuntimeError("temporary")
         return "ok"
+
     assert with_retry(operation, attempts=3) == "ok"
 
 
 def test_evidence_gate_abstains_below_threshold() -> None:
     with pytest.raises(EvidenceInsufficient):
-        evidence_gate([RetrievedChunk("d1", "Runbook", "A", "internal", .4, "text", {})])
+        evidence_gate([RetrievedChunk("d1", "Runbook", "A", "internal", 0.4, "text", {})])

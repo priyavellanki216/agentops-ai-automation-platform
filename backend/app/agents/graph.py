@@ -2,8 +2,8 @@ from __future__ import annotations
 
 from typing import TypedDict
 
-from .router import ToolPlan, route_request
 from ..observability.tracing import TraceEnvelope
+from .router import ToolPlan, route_request
 
 
 class AgentState(TypedDict, total=False):

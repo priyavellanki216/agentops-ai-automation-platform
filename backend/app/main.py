@@ -3,12 +3,13 @@
 The managed preview uses the React/Express shell, while this module is the
 portable FastAPI reference implementation for local Docker deployment.
 """
+
 from __future__ import annotations
 
-from datetime import datetime, timezone
-from enum import Enum
 import os
 import time
+from datetime import UTC, datetime
+from enum import Enum
 from uuid import uuid4
 
 from fastapi import Depends, FastAPI, Header, HTTPException
@@ -73,7 +74,11 @@ TOOLS: dict[str, dict[str, object]] = {
 def require_api_key(x_api_key: str | None = Header(default=None)) -> Role:
     """Validate an environment-managed key and apply a bounded per-key rate limit."""
     configured = [key.strip() for key in os.getenv("AGENTOPS_API_KEYS", "").split(",") if key.strip()]
-    role_map = {pair.split("=", 1)[0].strip(): pair.split("=", 1)[1].strip() for pair in os.getenv("AGENTOPS_KEY_ROLES", "").split(",") if "=" in pair}
+    role_map = {
+        pair.split("=", 1)[0].strip(): pair.split("=", 1)[1].strip()
+        for pair in os.getenv("AGENTOPS_KEY_ROLES", "").split(",")
+        if "=" in pair
+    }
     if not x_api_key or (configured and x_api_key not in configured):
         raise HTTPException(status_code=401, detail={"code": "AUTH_REQUIRED", "message": "Provide a valid API key."})
     now = time.monotonic()
@@ -85,7 +90,9 @@ def require_api_key(x_api_key: str | None = Header(default=None)) -> Role:
     try:
         return Role(role)
     except ValueError as exc:
-        raise HTTPException(status_code=500, detail={"code": "ROLE_CONFIG_INVALID", "message": "Configured role is invalid."}) from exc
+        raise HTTPException(
+            status_code=500, detail={"code": "ROLE_CONFIG_INVALID", "message": "Configured role is invalid."}
+        ) from exc
 
 
 @app.get("/api/v1/health")
@@ -95,18 +102,30 @@ def health() -> dict[str, object]:
 
 @app.get("/api/v1/tools")
 def list_tools(role: Role = Depends(require_api_key)) -> dict[str, object]:
-    return {"role": role, "tools": [{"name": name, **meta, "allowed": role.value in meta["roles"]} for name, meta in TOOLS.items()]}
+    return {
+        "role": role,
+        "tools": [{"name": name, **meta, "allowed": role.value in meta["roles"]} for name, meta in TOOLS.items()],
+    }
 
 
 @app.post("/api/v1/agent/run", response_model=AgentRun)
-def run_agent(request: AgentRequest, x_request_id: str | None = Header(default=None), role: Role = Depends(require_api_key)) -> AgentRun:
+def run_agent(
+    request: AgentRequest, x_request_id: str | None = Header(default=None), role: Role = Depends(require_api_key)
+) -> AgentRun:
     if role not in {Role.admin, Role.analyst}:
-        raise HTTPException(status_code=403, detail={"code": "ROLE_DENIED", "message": "This role cannot run investigations."})
-    now = datetime.now(timezone.utc)
+        raise HTTPException(
+            status_code=403, detail={"code": "ROLE_DENIED", "message": "This role cannot run investigations."}
+        )
+    now = datetime.now(UTC)
     trace = TraceEnvelope(agent_version=request.agent_version)
     if x_request_id:
         trace.request_id = x_request_id
-    audit = AuditEvent(action="agent_run_started", resource="agent_run", detail={"query_length": len(request.query), "role": role.value}, trace_id=trace.trace_id)
+    audit = AuditEvent(
+        action="agent_run_started",
+        resource="agent_run",
+        detail={"query_length": len(request.query), "role": role.value},
+        trace_id=trace.trace_id,
+    )
     audit.persist()
     trace.event("request_received", query_length=len(request.query), role=role.value)
     plan = route_request(request.query)
@@ -119,17 +138,33 @@ def run_agent(request: AgentRequest, x_request_id: str | None = Header(default=N
         except (ValueError, PermissionError) as exc:
             trace.errors.append({"code": "TOOL_PLAN_REJECTED", "message": str(exc)})
             trace.event("tool_plan_rejected", tool=tool_name, error=str(exc))
-            AuditEvent(action="tool_plan_rejected", resource=tool_name, detail={"error": str(exc)}, trace_id=trace.trace_id).persist()
+            AuditEvent(
+                action="tool_plan_rejected", resource=tool_name, detail={"error": str(exc)}, trace_id=trace.trace_id
+            ).persist()
     trace.event("plan_selected", intent=plan.intent, tools=allowed_tools)
     trace_payload = trace.finish()
-    AuditEvent(action="agent_run_completed", resource="agent_run", detail={"tools": allowed_tools, "latency_ms": trace_payload["latency_ms"]}, trace_id=trace.trace_id).persist()
+    AuditEvent(
+        action="agent_run_completed",
+        resource="agent_run",
+        detail={"tools": allowed_tools, "latency_ms": trace_payload["latency_ms"]},
+        trace_id=trace.trace_id,
+    ).persist()
     return AgentRun(
-        run_id=f"run_{uuid4().hex[:8]}", trace_id=str(trace_payload["trace_id"]), status="accepted",
+        run_id=f"run_{uuid4().hex[:8]}",
+        trace_id=str(trace_payload["trace_id"]),
+        status="accepted",
         answer="The request has been accepted for evidence-gated orchestration.",
-        tools_used=allowed_tools, sources=[], latency_ms=int(trace_payload["latency_ms"]), created_at=now,
+        tools_used=allowed_tools,
+        sources=[],
+        latency_ms=int(trace_payload["latency_ms"]),
+        created_at=now,
     )
 
 
 @app.get("/api/v1/metrics")
 def metrics(role: Role = Depends(require_api_key)) -> dict[str, object]:
-    return {"agent_version": "v2.4.1", "role": role, "evaluation": {"status": "not_run", "message": "Run the benchmark to populate measured metrics."}}
+    return {
+        "agent_version": "v2.4.1",
+        "role": role,
+        "evaluation": {"status": "not_run", "message": "Run the benchmark to populate measured metrics."},
+    }

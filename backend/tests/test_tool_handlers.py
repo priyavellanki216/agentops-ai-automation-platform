@@ -1,7 +1,13 @@
 import pytest
 
-from backend.app.tool_handlers import CustomerInput, QueryInput, create_ticket, get_customer, query_database
 from backend.app.services.mcp_client import MCPClient
+from backend.app.tool_handlers import (
+    CustomerInput,
+    QueryInput,
+    create_ticket,
+    get_customer,
+    query_database,
+)
 
 
 def test_customer_tool_is_typed_and_traceable() -> None:

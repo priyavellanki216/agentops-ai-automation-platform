@@ -16,6 +16,7 @@ def generate_grounded_answer(query: str, evidence: list[dict[str, Any]]) -> str:
     if not api_key:
         return "OpenAI provider is not configured; evidence collection completed without generating an answer."
     from openai import OpenAI
+
     client = OpenAI(api_key=api_key)
     response = client.responses.create(
         model=os.getenv("OPENAI_MODEL", "gpt-4.1-mini"),

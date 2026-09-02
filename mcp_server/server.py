@@ -3,6 +3,7 @@
 The server intentionally exposes a small allow-listed catalog. Each tool accepts
 validated JSON and returns structured data suitable for trace capture.
 """
+
 from __future__ import annotations
 
 from dataclasses import dataclass
@@ -43,4 +44,11 @@ def call_tool(name: str, arguments: dict[str, Any], token: str | None) -> dict[s
         return {"ok": False, "error": {"code": "TOOL_NOT_FOUND", "message": name}}
     if spec.required_role == "analyst" and role not in {"admin", "analyst"}:
         return {"ok": False, "error": {"code": "ROLE_DENIED", "message": f"{role} cannot call {name}"}}
-    return {"ok": True, "tool": name, "arguments": arguments, "data": [], "evidence": [], "trace": {"connector": "internal-mcp"}}
+    return {
+        "ok": True,
+        "tool": name,
+        "arguments": arguments,
+        "data": [],
+        "evidence": [],
+        "trace": {"connector": "internal-mcp"},
+    }
