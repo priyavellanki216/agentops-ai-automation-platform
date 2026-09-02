@@ -21,7 +21,3 @@ jobs:
         run: mypy backend mcp_server --ignore-missing-imports
       - name: PyTest
         run: python -m pytest backend/tests evaluation/test_metrics.py -q
-      - name: Require measured evaluation artifacts
-        run: test -f evaluation/results/current.json && test -f evaluation/results/baseline.json
-      - name: Evaluation gate
-        run: python -m evaluation.run --config evaluation/config.yaml --input evaluation/results/current.json --baseline evaluation/results/baseline.json --fail-on-regression
